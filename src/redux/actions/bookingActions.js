@@ -61,6 +61,60 @@ const createBookingError = (error) => {
   };
 };
 
+export const getTimes = (query) => {
+  return function (dispatch) {
+    dispatch(getTimesStart());
+    axios
+      .get("bookings/time?" + query)
+      .then((response) => {
+        const times = response.data.data;
+        dispatch(getTimesSuccess(times));
+      })
+      .catch((error) => {
+        let resError = "Алдаа гарлаа дахин оролдож үзнэ үү";
+        if (resError) {
+          resError = error.message;
+        }
+
+        if (
+          error.response !== undefined &&
+          error.response.status !== undefined
+        ) {
+          resError = error.response.status;
+        }
+        if (
+          error.response !== undefined &&
+          error.response.data !== undefined &&
+          error.response.data.error !== undefined
+        ) {
+          resError = error.response.data.error.message;
+        }
+
+        dispatch(getTimesError(resError));
+      });
+  };
+};
+
+export const getTimesStart = () => {
+  return {
+    type: "LOAD_TIMES_START",
+  };
+};
+
+export const getTimesSuccess = (times) => {
+  return {
+    type: "LOAD_TIMES_SUCCESS",
+    times,
+  };
+};
+
+export const getTimesError = (error) => {
+  return {
+    type: "LOAD_TIMES_ERROR",
+    error,
+  };
+};
+
 // LOAD BOOKINGS
 
 export const loadBookings = (query = "") => {

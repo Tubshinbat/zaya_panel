@@ -1,7 +1,7 @@
 const myBase = {
-  cdnUrl: "http://localhost:8022/",
-  baseUrl: "http://localhost:3001/",
-  siteUrl: "http://localhost:3000/",
+  cdnUrl: "http://beta.zaya-ananda.com/",
+  baseUrl: "http://admin.zaya-ananda.com/",
+  siteUrl: "http://beta.zaya-ananda.com/",
 };
 
 export default myBase;

@@ -205,12 +205,18 @@ const Add = (props) => {
   return (
     <Section>
       <MetaTags>
-        <title> Нийтлэл нэмэх | WEBR Control Panel</title>
-        <meta name="description" content="Нийтлэл нэмэх | WeBR control panel" />
-        <meta property="og:title" content="Нийтлэл нэмэх | web control panel" />
+        <title> Бясалгал дасгал нэмэх | WEBR Control Panel</title>
+        <meta
+          name="description"
+          content="Бясалгал дасгал нэмэх | WeBR control panel"
+        />
+        <meta
+          property="og:title"
+          content="Бясалгал дасгал нэмэх | web control panel"
+        />
       </MetaTags>
 
-      <PageTitle name={`Нийтлэл бичих `} />
+      <PageTitle name={`Бясалгал дасгал нэмэх `} />
       <div className="row">
         {props.loading === true && <Spinner />}
         <div className="col-md-8">
@@ -223,7 +229,7 @@ const Add = (props) => {
                     className="form-control"
                     type="text"
                     name="name"
-                    placeholder="Нийтлэлийн гарчиг оруулна уу"
+                    placeholder="Бясалгал дасгалийн гарчиг оруулна уу"
                     value={formData.name}
                     onChange={handleChange}
                   />
@@ -234,7 +240,7 @@ const Add = (props) => {
               </div>
               <div className="col-md-12">
                 <div className="form-group">
-                  <p className={`${css.Title}`}> Мэдээний хураангуй </p>
+                  <p className={`${css.Title}`}> Хураангуй </p>
                   <textarea
                     className="form-control"
                     name="shortDetails"
@@ -244,7 +250,7 @@ const Add = (props) => {
               </div>
               <div className="col-md-12">
                 <div className="form-group">
-                  <p className={`${css.Title}`}> Мэдээллийн дэлгэрэнгүй </p>
+                  <p className={`${css.Title}`}> Дэлгэрэнгүй </p>
                   <Editor
                     apiKey="2nubq7tdhudthiy6wfb88xgs36os4z3f4tbtscdayg10vo1o"
                     name="details"
@@ -328,27 +334,13 @@ const Add = (props) => {
                   </label>
                 </div>
               </div>
-              <div className="form-group">
-                <div className="custom-control custom-switch">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="starActive"
-                    name="star"
-                    onChange={handleRadio}
-                  />
-                  <label className="custom-control-label" htmlFor="starActive">
-                    Онцлох
-                  </label>
-                </div>
-              </div>
             </div>
           </div>
 
           <div className="card card-primary card-outline">
             <div className="card-header">
               <h3 className="card-title">
-                <i className="fas fa-list"></i> Нийтлэл ангилал
+                <i className="fas fa-list"></i> Бясалгал дасгал ангилал
               </h3>
             </div>
             <div className="card-body box-profile">
@@ -363,7 +355,7 @@ const Add = (props) => {
           <div className="card card-primary card-outline">
             <div className="card-header">
               <h3 className="card-title">
-                <i className="far fa-image"></i> Нийтлэлийн зураг
+                <i className="far fa-image"></i> Бясалгал дасгалийн зураг
               </h3>
             </div>
 

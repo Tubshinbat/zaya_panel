@@ -271,12 +271,18 @@ const Edit = (props) => {
   return (
     <Section>
       <MetaTags>
-        <title> Нийтлэл засах | WEBR Control Panel</title>
-        <meta name="description" content="Нийтлэл засах | WeBR control panel" />
-        <meta property="og:title" content="Нийтлэл засах | web control panel" />
+        <title> Бясалгал дасгал засах | WEBR Control Panel</title>
+        <meta
+          name="description"
+          content="Бясалгал дасгал засах | WeBR control panel"
+        />
+        <meta
+          property="og:title"
+          content="Бясалгал дасгал засах | web control panel"
+        />
       </MetaTags>
       {props.loading === true && <Spinner />}
-      <PageTitle name="Нийтлэл засах" />
+      <PageTitle name="Бясалгал дасгал засах" />
       <div className="row">
         <div className="col-md-8">
           <CardBoby>
@@ -288,7 +294,7 @@ const Edit = (props) => {
                     className="form-control"
                     type="text"
                     name="name"
-                    placeholder="Нийтлэлийн гарчиг оруулна уу"
+                    placeholder="Бясалгал дасгалын гарчиг оруулна уу"
                     value={formData.name}
                     onChange={handleChange}
                   />
@@ -299,7 +305,7 @@ const Edit = (props) => {
               </div>
               <div className="col-md-12">
                 <div className="form-group">
-                  <p className={`${css.Title}`}> Мэдээний хураангуй </p>
+                  <p className={`${css.Title}`}> Хураангуй </p>
                   <textarea
                     className="form-control"
                     name="shortDetails"
@@ -310,7 +316,7 @@ const Edit = (props) => {
               </div>
               <div className="col-md-12">
                 <div className="form-group">
-                  <p className={`${css.Title}`}> Мэдээллийн дэлгэрэнгүй </p>
+                  <p className={`${css.Title}`}> Дэлгэрэнгүй </p>
                   <Editor
                     apiKey="2nubq7tdhudthiy6wfb88xgs36os4z3f4tbtscdayg10vo1o"
                     name="details"
@@ -417,7 +423,7 @@ const Edit = (props) => {
           <div className="card card-primary card-outline">
             <div className="card-header">
               <h3 className="card-title">
-                <i className="fas fa-list"></i> Нийтлэл ангилал
+                <i className="fas fa-list"></i> Бясалгал дасгал ангилал
               </h3>
             </div>
             <div className="card-body box-profile">
@@ -432,7 +438,7 @@ const Edit = (props) => {
           <div className="card card-primary card-outline">
             <div className="card-header">
               <h3 className="card-title">
-                <i className="far fa-image"></i> Нийтлэлийн зураг
+                <i className="far fa-image"></i> Бясалгал дасгалын зураг
               </h3>
             </div>
             <div className="card-body box-profile">

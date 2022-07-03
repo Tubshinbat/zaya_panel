@@ -341,12 +341,14 @@ const News = (props) => {
                       </td>
                       <td>{el.name}</td>
                       <td>
-                        <a
-                          href={`${myBase.siteUrl}online/${el.group.slug}`}
-                          target="_blank"
-                        >
-                          {el.group.name}
-                        </a>
+                        {el.group && (
+                          <a
+                            href={`${myBase.siteUrl}online/${el.group.slug}`}
+                            target="_blank"
+                          >
+                            {el.group.name}
+                          </a>
+                        )}
                       </td>
                       <td className="categoryList">
                         {el.teachers.map((el) => el.name)}
@@ -354,13 +356,15 @@ const News = (props) => {
                       <td>{el.createAt}</td>
                       <td>
                         <div className={css.AllActions}>
-                          <a
-                            className={`${css.Actions} ${css.View}`}
-                            href={`${myBase.siteUrl}online/${el.group.slug}/${el._id}`}
-                            target="_blank"
-                          >
-                            <i className="fas fa-info"></i>
-                          </a>
+                          {el.group && (
+                            <a
+                              className={`${css.Actions} ${css.View}`}
+                              href={`${myBase.siteUrl}online/${el.group.slug}/${el._id}`}
+                              target="_blank"
+                            >
+                              <i className="fas fa-info"></i>
+                            </a>
+                          )}
                           <Link
                             className={`${css.Actions} ${css.Edit}`}
                             to={`/online-video/edit/${el._id}`}

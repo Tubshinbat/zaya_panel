@@ -82,8 +82,8 @@ const Add = (props) => {
   const init = () => {
     props.removePhotos();
     props.removeAllDatas();
-    props.loadEmployees();
-    props.loadOnlineGroups();
+    props.loadEmployees(`limit=100`);
+    props.loadOnlineGroups(`limit=100`);
     props.clear();
   };
 
@@ -179,24 +179,25 @@ const Add = (props) => {
   //RENDER CATEGORIES
   const renderTeachers = (teachers) => {
     let myTeachers = [];
-    teachers.map((el) => {
-      myTeachers.push(
-        <li key={el._id}>
-          <div>
-            <input
-              className={`categoryId`}
-              value={el._id}
-              type="checkbox"
-              name="teachers"
-              onChange={() => teacherCheck(el._id)}
-            />
-          </div>
-          {el.children.length > 0 ? (
-            <ul> {renderTeachers(el.children)} </ul>
-          ) : null}
-        </li>
-      );
-    });
+    teachers &&
+      teachers.map((el) => {
+        myTeachers.push(
+          <li key={el._id}>
+            <div>
+              <input
+                className={`categoryId`}
+                value={el._id}
+                type="checkbox"
+                name="teachers"
+                onChange={() => teacherCheck(el._id)}
+              />
+              <span className={el.name === undefined && `redText`}>
+                {el.name}
+              </span>
+            </div>
+          </li>
+        );
+      });
     return myTeachers;
   };
 
@@ -380,7 +381,7 @@ const Add = (props) => {
             <div className="card-body box-profile">
               <div className={css.CategoryBox}>
                 <div className="card-body box-profile">
-                  {renderTeachers(props.teachers)}
+                  {renderTeachers(props.teachers && props.teachers)}
                 </div>
               </div>
             </div>

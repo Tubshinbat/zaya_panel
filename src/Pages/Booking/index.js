@@ -8,8 +8,9 @@ import Pagination from "react-js-pagination";
 import myBase from "../../base";
 
 // ACTIONS
-
 import * as actions from "../../redux/actions/bookingActions";
+import { loadOrderTypes } from "../../redux/actions/orderTypeActions";
+import { loadServices } from "../../redux/actions/serviceActions";
 
 //STYLES
 import css from "./__.module.css";
@@ -34,13 +35,12 @@ const News = (props) => {
   const [total, setTotal] = useState();
 
   // SEARCH STATE
-  const [category, setCategory] = useState(null);
   const [status, setStatus] = useState(null);
   const [sort, setSort] = useState("");
-  const [searchText, setSearchText] = useState("");
   const [select, setSelect] = useState(
-    "status name slug categories pictures type createAt"
+    "status bookingNumber bookingType service date time createAt createUser"
   );
+  const [search, setSearch] = useState({});
 
   // DELETE CHECKBOX
   const [chkBox, setChkBox] = useState([]);
@@ -81,25 +81,24 @@ const News = (props) => {
 
   useEffect(() => {
     props.loadBookings(
-      `select=${select}&sort=${sort}&status=${status}&name=${searchText}&page=${activePage}`
+      `select=${select}&sort=${sort}&status=${search.status}&bookingNumber=${search.bookingNumber}&bookingType=${search.bookingType}&service=${search.service}&date=${search.date}&time=${search.time}&page=${activePage}`
     );
-  }, [activePage]);
+  }, [activePage, search]);
 
   //-- FUNCTIONS
   // INIT
   const init = () => {
     props.clear();
-    setCategory(() => null);
     setStatus(() => null);
-    setSearchText(() => "");
-    setSelectCat();
     setChkBox(() => []);
-
     props.loadBookings(`select=${select}`);
+    props.getTimes();
+    props.loadServices(`limit=100`);
+    props.loadOrderTypes(`limit=100`);
   };
 
   const addClick = () => {
-    props.history.push("/course/add");
+    props.history.push("/booking/add");
   };
 
   const handleShow = (data) => {
@@ -107,15 +106,6 @@ const News = (props) => {
       ...beforeDrop,
       [data]: dropShow[data] ? false : true,
     }));
-  };
-
-  const handleClickStatus = (e) => {
-    setSelectStatus(e.name);
-    handleShow("status");
-    setStatus(e.value);
-    props.loadBookings(
-      `select=${select}&sort=${sort}&status=${e.value}&name=${searchText}&category=${category}&page=${activePage}`
-    );
   };
 
   const handleShowModel = () => {
@@ -128,25 +118,12 @@ const News = (props) => {
 
   // FILTER HANDLE
   const handleChange = (e) => {
-    setSearchText(e.target.value);
-    props.loadPagination(props.pageLast);
-    props.loadBookings(
-      `select=${select}&sort=${sort}&status=${status}&name=${e.target.value}&page=${activePage}`
-    );
+    const { name, value } = e.target;
+    setSearch((bs) => ({ ...bs, [name]: value }));
   };
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
-  };
-
-  const handleClickCategory = (e = null) => {
-    setSelectCat(e.name || "Бүгд");
-    setCategory(e._id || null);
-    handleShow("category");
-    const id = e ? e._id : null;
-    props.loadBookings(
-      `select=${select}&sort=${sort}&status=${status}&name=${searchText}&category=${id}&page=${activePage}`
-    );
   };
 
   const deleteClick = () => {
@@ -177,40 +154,20 @@ const News = (props) => {
 
   // RENDERS
 
-  const renderStatus = () => {
-    const statusData = [
-      { name: "Бүгд", value: null },
-      { name: "Идэвхтэй", value: true },
-      { name: "Ноорог", value: false },
-    ];
-    let renderJSX = [];
-    statusData.map((el) => {
-      renderJSX.push(
-        <li key={el.name}>
-          <p className={`DropdownEl`} onClick={() => handleClickStatus(el)}>
-            {el.name}
-          </p>
-        </li>
-      );
-    });
-
-    return renderJSX;
-  };
-
   return (
     <Section>
       <MetaTags>
-        <title> Тэнхим сургалт | WEBR Control Panel</title>
+        <title> Цаг авах хүсэлтүүд | WEBR Control Panel</title>
         <meta
           name="description"
-          content="Тэнхим сургалт | WeBR control panel"
+          content="Цаг авах хүсэлтүүд | WeBR control panel"
         />
         <meta
           property="og:title"
-          content="Тэнхим сургалт | web control panel"
+          content="Цаг авах хүсэлтүүд | web control panel"
         />
       </MetaTags>
-      <PageTitle name={`Тэнхим сургалт`} />
+      <PageTitle name={`Цаг авах хүсэлтүүд`} />
 
       <div className="row">
         <div className={css.PanelControl}>
@@ -221,7 +178,7 @@ const News = (props) => {
                 onClick={addClick}
                 className="myButton addBtn"
               >
-                <i className="fas fa-plus-circle"></i> Тэнхим сургалт оруулах{" "}
+                <i className="fas fa-plus-circle"></i> Цаг авах хүсэлт нэмэх
               </button>
               <button
                 name="refresh"
@@ -239,36 +196,6 @@ const News = (props) => {
                   <i className="fas fa-trash-alt"></i> Устгах
                 </button>
               )}
-            </div>
-          </div>
-          <div className="col-md-8">
-            <div className="row">
-              <div className="col-md-8">
-                <div className={`searchPanel`}>
-                  <div className="form-group">
-                    <Dropdown
-                      key={"status"}
-                      name={!selectStatus ? "Төлөв" : selectStatus}
-                      data={renderStatus()}
-                      handleClick={handleShow}
-                      show={dropShow.status}
-                      who="status"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="form-group">
-                  <input
-                    type="text"
-                    name="searchText"
-                    className="form-control my-input searchInput"
-                    placeholder="Хайлт хийх..."
-                    onChange={handleChange}
-                    value={searchText && searchText}
-                  />
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -299,16 +226,87 @@ const News = (props) => {
                 <thead>
                   <tr>
                     <th></th>
-                    <th className="statusTh">Төлөв </th>
-                    <th> Зураг </th>
-                    <th>Гарчиг</th>
-                    <th>Үнэ</th>
-                    <th>Нэмсэн огноо</th>
-                    <th>Үйлдэл</th>
+                    <th className="statusTh"> Баталгаажуулсан эсэх </th>
+                    <th> Захиалгын дугаар</th>
+                    <th> Сонгосон үйлчилгээ </th>
+                    <th> Төлөв </th>
+                    <th> Огноо </th>
+                    <th> Цаг </th>
+                    <th> Үйлдэл </th>
                   </tr>
                 </thead>
-                {props.courses &&
-                  props.courses.map((el) => (
+                <tr>
+                  <td></td>
+                  <td>
+                    <select
+                      name="status"
+                      onChange={handleChange}
+                      className="form-select"
+                    >
+                      <option value="">Баталгаажуулсан эсэх сонгох</option>
+                      <option value="true"> Баталгаажуулсан </option>
+                      <option value="false"> Баталгаажуулаагүй </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      onChange={handleChange}
+                      name="bookingNumber"
+                      placeholder="Захиалгын дугаараар хайх"
+                      className="form-control"
+                    />
+                  </td>
+                  <td>
+                    <select
+                      name="service"
+                      onChange={handleChange}
+                      className="form-select"
+                    >
+                      <option value="">Үйлчилгээ сонгох</option>
+                      {props.services &&
+                        props.services.map((service) => (
+                          <option value={service._id}> {service.name} </option>
+                        ))}
+                    </select>
+                  </td>
+                  <td>
+                    <select
+                      name="bookingType"
+                      onChange={handleChange}
+                      className="form-select"
+                    >
+                      <option value=""> Төлөв сонгох </option>
+                      {props.orderTypes &&
+                        props.orderTypes.map((type) => (
+                          <option value={type._id}> {type.name} </option>
+                        ))}
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      name="date"
+                      className="form-control"
+                      onChange={handleChange}
+                    />
+                  </td>
+                  <td>
+                    <select
+                      name="time"
+                      className="form-select"
+                      onChange={handleChange}
+                    >
+                      <option value=""> Цаг сонгох </option>
+                      {props.times &&
+                        props.times.map((time) => (
+                          <option value={time}> {time} </option>
+                        ))}
+                    </select>
+                  </td>
+                  <td></td>
+                </tr>
+                {props.bookings &&
+                  props.bookings.map((el) => (
                     <tr key={el._id}>
                       <td className="checkTd">
                         <input
@@ -325,36 +323,16 @@ const News = (props) => {
                           <div className="activeOff"></div>
                         )}
                       </td>
-
-                      <td>
-                        {el.pictures.length > 0 ? (
-                          <div className="tableImgBox">
-                            <img
-                              src={`${myBase.cdnUrl}uploads/150x150/${el.pictures[0]}`}
-                              className="tableImg"
-                            />
-                          </div>
-                        ) : (
-                          "Зураг олдсонгүй "
-                        )}
-                      </td>
-                      <td>{el.name}</td>
-                      <td>
-                        {new Intl.NumberFormat().format(el.price)} {el.priceVal}
-                      </td>
-                      <td>{el.createAt}</td>
+                      <td> {el.bookingNumber} </td>
+                      <td>{el.service && el.service.name}</td>
+                      <td>{el.bookingType && el.bookingType.name}</td>
+                      <td>{el.date}</td>
+                      <td>{el.time}</td>
                       <td>
                         <div className={css.AllActions}>
-                          <a
-                            className={`${css.Actions} ${css.View}`}
-                            href={`${myBase.siteUrl}course/${el.slug}`}
-                            target="_blank"
-                          >
-                            <i className="fas fa-info"></i>
-                          </a>
                           <Link
                             className={`${css.Actions} ${css.Edit}`}
-                            to={`/course/edit/${el._id}`}
+                            to={`/booking/edit/${el._id}`}
                           >
                             <i className="fas fa-pencil-alt"></i>
                           </Link>
@@ -364,8 +342,8 @@ const News = (props) => {
                   ))}
               </table>
               {props.loading === false &&
-                props.courses &&
-                props.courses.length < 1 && (
+                props.bookings &&
+                props.bookings.length < 1 && (
                   <div className={css.Notfound}>
                     <p> "Илэрц олдсонгүй" </p>
                     <img src={notfound} />
@@ -417,11 +395,14 @@ const News = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    courses: state.courseReducer.courses,
-    pageLast: state.courseReducer.paginationLast,
-    loading: state.courseReducer.loading,
-    success: state.courseReducer.success,
-    error: state.courseReducer.error,
+    bookings: state.bookingReducer.bookings,
+    pageLast: state.bookingReducer.paginationLast,
+    loading: state.bookingReducer.loading,
+    success: state.bookingReducer.success,
+    error: state.bookingReducer.error,
+    orderTypes: state.orderTypeReducer.orderTypes,
+    times: state.bookingReducer.times,
+    services: state.serviceReducer.services,
   };
 };
 
@@ -430,6 +411,9 @@ const mapDispatchToProps = (dispatch) => {
     clear: () => dispatch(actions.clear()),
     loadBookings: (query) => dispatch(actions.loadBookings(query)),
     loadPagination: (pageLast) => dispatch(actions.loadPagination(pageLast)),
+    getTimes: () => dispatch(actions.getTimes()),
+    loadOrderTypes: (query) => dispatch(loadOrderTypes(query)),
+    loadServices: (query) => dispatch(loadServices(query)),
     deleteMultBooking: (ids) => dispatch(actions.deleteMultBooking(ids)),
   };
 };

@@ -59,6 +59,10 @@ const Add = (props) => {
     }
   }, [props.success]);
 
+  useEffect(() => {
+    allCheck();
+  }, [formData]);
+
   // DROP Files CONTROL
 
   // -- INIT FUNCTION
@@ -76,10 +80,7 @@ const Add = (props) => {
     const valueErrors = Object.keys(errors);
     if (valueErrors.find((el) => checkName(el, name))) {
       let result = requiredCheck(val);
-      if (name === "name" && result === true) {
-        result = minLength(val, 5);
-        result === true && (result = maxLength(val, 300));
-      }
+
       setErrors((bfError) => ({ ...bfError, [name]: result }));
     }
   };

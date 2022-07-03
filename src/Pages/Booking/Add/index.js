@@ -9,7 +9,6 @@ import CardBoby from "../../../Components/General/CardBody";
 import Section from "../../../Components/General/Section";
 import PageTitle from "../../../Components/PageTitle";
 import Spinner from "../../../Components/General/Spinner";
-import Dropzone from "../../../Components/General/Dropzone";
 import { ToastContainer } from "react-toastify";
 
 // LIB
@@ -22,27 +21,21 @@ import {
 } from "../../../lib/inputRegex";
 
 // ACTIONS
-import { loadEmployees } from "../../../redux/actions/employeeActions";
-import {
-  allRemove,
-  tinymceAddPhoto,
-} from "../../../redux/actions/imageActions";
-
-import { removeAllDatas } from "../../../redux/actions/newsUploadActions";
-import * as actions from "../../../redux/actions/courseActions";
+import * as actions from "../../../redux/actions/bookingActions";
+import { loadOrderTypes } from "../../../redux/actions/orderTypeActions";
+import { loadServices } from "../../../redux/actions/serviceActions";
 
 // STYLE CSS
 import css from "./__.module.css";
 
 const Add = (props) => {
   // USESTATE
-  const [checked, setChecked] = useState([]);
   const [formData, setForm] = useState({});
   const [errors, setErrors] = useState({
-    name: false,
-    details: false,
-    pictures: false,
-    price: false,
+    bookingType: false,
+    service: false,
+    date: false,
+    time: false,
   });
 
   // USEEFFECT
@@ -59,22 +52,21 @@ const Add = (props) => {
     if (props.success) {
       toastControl("success", props.success);
       props.clear();
-      setTimeout(() => props.history.replace("/course"), 2000);
+      setTimeout(() => props.history.replace("/booking"), 2000);
     }
   }, [props.success]);
 
-  // DROP Files CONTROL
   useEffect(() => {
-    setForm((bf) => ({ ...bf, pictures: props.images }));
-    checkFrom("pictures", props.images);
-  }, [props.images]);
+    props.getTimes(
+      `status=true&service=${formData.service}&date=${formData.date}`
+    );
+  }, [formData]);
 
   // -- INIT FUNCTION
   const init = () => {
-    props.removePhotos();
-    props.loadEmployees();
-    props.removeAllDatas();
     props.clear();
+    props.loadServices(`limit=100`);
+    props.loadOrderTypes(`limit=100`);
   };
 
   //CHECK FORM FUNCTION
@@ -87,18 +79,6 @@ const Add = (props) => {
     const valueErrors = Object.keys(errors);
     if (valueErrors.find((el) => checkName(el, name))) {
       let result = requiredCheck(val);
-      if (name === "name" && result === true) {
-        result = minLength(val, 5);
-        result === true && (result = maxLength(val, 300));
-      }
-      if (name === "details" && result === true) {
-        result = minLength(val, 20);
-      }
-
-      if (name === "price" && result === true) {
-        result = onlyNumber(val);
-      }
-
       setErrors((bfError) => ({ ...bfError, [name]: result }));
     }
   };
@@ -122,11 +102,7 @@ const Add = (props) => {
   const convertFromdata = () => {
     const sendData = new FormData();
     Object.keys(formData).map((index) => {
-      if (index === "pictures") {
-        for (let i = 0; i < formData[index].length; i++) {
-          sendData.append([index], formData[index][i]);
-        }
-      } else sendData.append(index, formData[index]);
+      sendData.append(index, formData[index]);
     });
 
     return sendData;
@@ -139,15 +115,6 @@ const Add = (props) => {
     checkFrom(event.target.name, event.target.value);
   };
 
-  const textAreaChange = (event) => {
-    setForm((bf) => ({ ...bf, details: event }));
-    checkFrom("details", event);
-  };
-
-  const handleRadio = (event) => {
-    setForm((bf) => ({ ...bf, [event.target.name]: event.target.checked }));
-  };
-
   // -- END HANDLE CHANGE INPUT
 
   /* -- CLICK EVENTS */
@@ -157,161 +124,111 @@ const Add = (props) => {
 
   const addClick = () => {
     const sendData = convertFromdata();
-    console.log(formData);
     allCheck() === true
-      ? props.createCourse(sendData)
+      ? props.createBooking(sendData)
       : toastControl(
           "error",
           "Уучлаарай заавал бөглөх талбаруудыг бөглөнө үү!"
         );
   };
 
-  //RENDER CATEGORIES
-  const renderTeachers = (teachers) => {
-    let myTeachers = [];
-    teachers.map((el) => {
-      myTeachers.push(
-        <li key={el._id}>
-          <div>
-            <input
-              className={`categoryId`}
-              value={el._id}
-              type="checkbox"
-              name="teachers"
-              onChange={() => teacherCheck(el._id)}
-            />
-          </div>
-          {el.children.length > 0 ? (
-            <ul> {renderTeachers(el.children)} </ul>
-          ) : null}
-        </li>
-      );
-    });
-    return myTeachers;
-  };
-
-  const teacherCheck = (c) => {
-    // return the first index or -1
-    const clickedTeacher = checked.indexOf(c);
-    const all = [...checked];
-    clickedTeacher === -1 ? all.push(c) : all.splice(clickedTeacher, 1);
-
-    setChecked(all);
-    setForm((beforeForm) => ({
-      ...beforeForm,
-      teachers: all,
-    }));
-  };
-
   return (
     <Section>
       <MetaTags>
-        <title> Сургалт нэмэх | WEBR Control Panel</title>
-        <meta name="description" content="Сургалт нэмэх | WeBR control panel" />
-        <meta property="og:title" content="Сургалт нэмэх | web control panel" />
+        <title> Цаг авах | WEBR Control Panel</title>
+        <meta name="description" content="Цаг авах | WeBR control panel" />
+        <meta property="og:title" content="Цаг авах | web control panel" />
       </MetaTags>
 
-      <PageTitle name={`Сургалт нэмэх `} />
+      <PageTitle name={`Цаг авах `} />
       <div className="row">
         {props.loading === true && <Spinner />}
-        <div className="col-md-8">
+        <div className="col-md-12">
           <CardBoby>
             <div className={`${css.AddForm} row`}>
               <div className="col-md-12">
                 <div className="form-group input-group-sm">
-                  <p className={`${css.Title}`}> Гарчиг </p>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="name"
-                    placeholder="Сургалтийн гарчиг оруулна уу"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                  {errors.name && (
-                    <span className={`litleError`}>{errors.name}</span>
-                  )}
-                </div>
-              </div>
-              <div className="col-md-9">
-                <div className="form-group input-group-sm">
-                  <p className={`${css.Title}`}> Сургалтын үнэ </p>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="price"
-                    placeholder="Сургалтын үнэ"
-                    value={formData.price}
-                    onChange={handleChange}
-                  />
-                  {errors.price && (
-                    <span className={`litleError`}>{errors.price}</span>
-                  )}
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="form-group input-group-sm">
-                  <p className={`${css.Title}`}> Сургалтын үнэ </p>
+                  <p className={`${css.Title}`}> Баталгаажуулсан эсэх </p>
                   <select
-                    name="priceVal"
+                    name="status"
                     className="form-select"
                     onChange={handleChange}
                   >
-                    <option value="₮">₮</option>
-                    <option value="$">$</option>
+                    <option value="false"> Баталгаажуулаагүй </option>
+                    <option value="true"> Баталгаажуулсан </option>
                   </select>
                 </div>
               </div>
               <div className="col-md-12">
-                <div className="form-group">
-                  <p className={`${css.Title}`}> Сургалтын хураангуй </p>
-                  <textarea
-                    className="form-control"
-                    name="shortDetails"
+                <div className="form-group input-group-sm">
+                  <p className={`${css.Title}`}> Төлөв </p>
+                  <select
+                    name="bookingType"
+                    className="form-select"
                     onChange={handleChange}
-                  ></textarea>
+                  >
+                    <option value=""> Төлөв сонгох </option>
+                    {props.orderTypes &&
+                      props.orderTypes.map((type) => (
+                        <option value={type._id}> {type.name} </option>
+                      ))}
+                  </select>
+                  {errors.bookingType && (
+                    <span className={`litleError`}>{errors.bookingType}</span>
+                  )}
                 </div>
               </div>
               <div className="col-md-12">
-                <div className="form-group">
-                  <p className={`${css.Title}`}> Сургалтын дэлгэрэнгүй </p>
-                  <Editor
-                    apiKey="2nubq7tdhudthiy6wfb88xgs36os4z3f4tbtscdayg10vo1o"
-                    name="details"
-                    init={{
-                      height: 300,
-                      menubar: false,
-                      plugins: [
-                        "advlist autolink lists link image charmap print preview anchor",
-                        "searchreplace visualblocks code fullscreen",
-                        "insertdatetime media table paste code help wordcount image media  code  table  ",
-                      ],
-                      toolbar:
-                        "undo redo | fontselect fontsizeselect formatselect blockquote  | bold italic backcolor | \
-                        alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help | link image | quickbars | media | code | tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
-                      file_picker_types: "image",
-                      automatic_uploads: false,
-                      file_picker_callback: function (cb, value, meta) {
-                        var input = document.createElement("input");
-                        input.setAttribute("type", "file");
-                        input.setAttribute("accept", "image/*");
-                        input.onchange = async function () {
-                          var file = this.files[0];
-                          const fData = new FormData();
-                          fData.append("file", file);
-                          await props.tinymceAddPhoto(fData);
-                          const url =
-                            `${base.cdnUrl}uploads/photo_img_` + file.name;
-                          cb(url);
-                        };
-                        input.click();
-                      },
-                    }}
-                    onEditorChange={textAreaChange}
+                <div className="form-group input-group-sm">
+                  <p className={`${css.Title}`}> Үйлчилгээ </p>
+                  <select
+                    name="service"
+                    className="form-select"
+                    onChange={handleChange}
+                  >
+                    <option value="">Үйлчилгээ сонгох</option>
+                    {props.services &&
+                      props.services.map((service) => (
+                        <option value={service._id}> {service.name}</option>
+                      ))}
+                  </select>
+                  {errors.service && (
+                    <span className={`litleError`}>{errors.service}</span>
+                  )}
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group input-group-sm">
+                  <p className={`${css.Title}`}> Өдөр сонгох </p>
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="date"
+                    onChange={handleChange}
                   />
-                  {errors.details && (
-                    <span className={`litleError`}>{errors.details}</span>
+                  {errors.date && (
+                    <span className={`litleError`}>{errors.date}</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="col-md-12">
+                <div className="form-group input-group-sm">
+                  <p className={`${css.Title}`}> Цаг сонгох </p>{" "}
+                  <select
+                    className="form-select"
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
+                  >
+                    <option value=""> Цаг сонгоно уу </option>
+                    {props.times &&
+                      props.times.map((time) => (
+                        <option value={time}> {time} </option>
+                      ))}
+                  </select>
+                  {errors.time && (
+                    <span className={`litleError`}>{errors.time}</span>
                   )}
                 </div>
               </div>
@@ -338,65 +255,6 @@ const Add = (props) => {
             </div>
           </CardBoby>
         </div>
-        <div className="col-md-4">
-          <div className="card card-primary card-outline">
-            <div className="card-header">
-              <h3 className="card-title">ТОХИРГОО</h3>
-            </div>
-            <div className="card-body box-profile">
-              <div className="form-group">
-                <div className="custom-control custom-switch">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="newsActive"
-                    name="status"
-                    onChange={handleRadio}
-                  />
-                  <label className="custom-control-label" htmlFor="newsActive">
-                    Нийтэд харагдах
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card card-primary card-outline">
-            <div className="card-header">
-              <h3 className="card-title">
-                <i className="far fa-image"></i> Сургалт орох багш
-              </h3>
-            </div>
-
-            <div className="card-body box-profile">
-              <div className={css.CategoryBox}>
-                <div className="card-body box-profile">
-                  {renderTeachers(props.teachers)}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card card-primary card-outline">
-            <div className="card-header">
-              <h3 className="card-title">
-                <i className="far fa-image"></i> Сургалтын зураг
-              </h3>
-            </div>
-
-            <div className="card-body box-profile">
-              <div className={css.CategoryBox}>
-                <div className="card-body box-profile">
-                  <div className="form-group">
-                    <Dropzone />
-                  </div>
-                  {errors.pictures && (
-                    <span className={`litleError`}>{errors.pictures}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <ToastContainer
         position="top-right"
@@ -416,21 +274,22 @@ const Add = (props) => {
 const mapStateToProps = (state) => {
   return {
     images: state.imageReducer.files,
-    error: state.courseReducer.error,
-    loading: state.courseReducer.loading,
-    success: state.courseReducer.success,
-    teachers: state.employeeReducer.employees,
+    error: state.bookingReducer.error,
+    loading: state.bookingReducer.loading,
+    success: state.bookingReducer.success,
+    orderTypes: state.orderTypeReducer.orderTypes,
+    times: state.bookingReducer.times,
+    services: state.serviceReducer.services,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removePhotos: () => dispatch(allRemove()),
-    createCourse: (data) => dispatch(actions.createCourse(data)),
-    loadEmployees: (query) => dispatch(loadEmployees(query)),
+    createBooking: (data) => dispatch(actions.createBooking(data)),
+    getTimes: (query) => dispatch(actions.getTimes(query)),
+    loadOrderTypes: (query) => dispatch(loadOrderTypes(query)),
+    loadServices: (query) => dispatch(loadServices(query)),
     clear: () => dispatch(actions.clear()),
-    tinymceAddPhoto: (file) => dispatch(tinymceAddPhoto(file)),
-    removeAllDatas: () => dispatch(removeAllDatas()),
   };
 };
 

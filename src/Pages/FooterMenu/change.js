@@ -174,11 +174,12 @@ const Change = (props) => {
         >
           {/* ["news", "products", "beproducts", "faq", "lend", "calculator"], */}
           <option value=""> Холбогдох модел </option>
-          <option value="news"> Мэдээ мэдээлэл </option>
-          <option value="products"> Бэлэн машинууд </option>
-          <option value="beproducts"> Beforward машинууд </option>
-          <option value="lend"> Зээлийн тооцоолуур </option>
-          <option value="calculator"> Үнэ бодуулах </option>
+          <option value="blog"> Бясалгал дасгал </option>
+          <option value="products"> Онлайн дэлгүүр </option>
+          <option value="onlines"> Онлайн хичээл </option>
+          <option value="services"> Үйлчилгээ </option>
+          <option value="course"> Сургалт </option>
+          <option value="faq"> Түгээмэл асуулт хариулт </option>
           <option value="contact"> Холбоо барих </option>
         </select>
       </div>

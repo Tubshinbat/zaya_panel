@@ -125,7 +125,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        orderType: action.singleOrderType,
+        orderType: action.ordertype,
         error: null,
       };
 

@@ -122,7 +122,7 @@ const Add = (props) => {
   const convertFromdata = () => {
     const sendData = new FormData();
     Object.keys(formData).map((index) => {
-      if (index === "pictures") {
+      if (index === "pictures" || index === "teachers") {
         for (let i = 0; i < formData[index].length; i++) {
           sendData.append([index], formData[index][i]);
         }
@@ -181,9 +181,7 @@ const Add = (props) => {
               onChange={() => teacherCheck(el._id)}
             />
           </div>
-          {el.children.length > 0 ? (
-            <ul> {renderTeachers(el.children)} </ul>
-          ) : null}
+          {el.name}
         </li>
       );
     });

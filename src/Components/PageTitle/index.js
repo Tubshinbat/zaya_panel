@@ -17,19 +17,19 @@ const routes = [
   },
   {
     path: "/news-category",
-    breadcrumb: "Нийтлэлийн төрөл",
+    breadcrumb: "Бясалгал төрөл",
   },
   {
     path: "/news",
-    breadcrumb: "Нийтлэл",
+    breadcrumb: "Бясалгал",
   },
   {
     path: "/news/add",
-    breadcrumb: "Нийтлэл нэмэх",
+    breadcrumb: "Бясалгал нэмэх",
   },
   {
     path: "/news/view/",
-    breadcrumb: "Нийтлэл харах",
+    breadcrumb: "Бясалгал харах",
   },
 
   {
@@ -38,7 +38,7 @@ const routes = [
   },
   {
     path: "/news/edit",
-    breadcrumb: "Нийтлэл шинэчлэх",
+    breadcrumb: "Бясалгал шинэчлэх",
   },
   {
     path: "/news/edit/:id",
@@ -62,15 +62,15 @@ const routes = [
   },
   {
     path: "/product",
-    breadcrumb: "Бэлэн машинууд",
+    breadcrumb: "Бараа бүтээгдэхүүн",
   },
   {
     path: "/product/add",
-    breadcrumb: "Машин нэмэх",
+    breadcrumb: "Бараа бүтээгдэхүүн нэмэх",
   },
   {
     path: "/product/edit",
-    breadcrum: "Машин шинэчлэх",
+    breadcrum: "Бараа бүтээгдэхүүн шинэчлэх",
   },
   {
     path: "/product/edit/:id",
@@ -318,6 +318,91 @@ const routes = [
   },
   {
     path: "/online-course/edit/:id",
+    breadcrumb: DynamicNewsBreadcrumb,
+  },
+
+  {
+    path: "/order-course",
+    breadcrumb: "СУРГАЛТЫН БҮРТГЭЛ",
+  },
+  {
+    path: "/online-course/add",
+    breadcrumb: " СУРГАЛТЫН БҮРТГЭЛ нэмэх",
+  },
+  {
+    path: "/online-course/edit",
+    breadcrumb: " СУРГАЛТЫН БҮРТГЭЛ шинэчлэх",
+  },
+  {
+    path: "/online-course/edit/:id",
+    breadcrumb: DynamicNewsBreadcrumb,
+  },
+
+  {
+    path: "/course-comment",
+    breadcrumb: "СУРГАЛТЫН СЭТГЭГДЭЛ",
+  },
+  {
+    path: "/course-comment/add",
+    breadcrumb: " СУРГАЛТЫН СЭТГЭГДЭЛ нэмэх",
+  },
+  {
+    path: "/course-comment/edit",
+    breadcrumb: " СУРГАЛТЫН СЭТГЭГДЭЛ шинэчлэх",
+  },
+  {
+    path: "/course-comment/edit/:id",
+    breadcrumb: DynamicNewsBreadcrumb,
+  },
+
+  {
+    path: "/booking",
+    breadcrumb: "Цаг авах",
+  },
+  {
+    path: "/booking/add",
+    breadcrumb: " Цаг авах",
+  },
+  {
+    path: "/booking/edit",
+    breadcrumb: " Цаг шинэчлэх",
+  },
+  {
+    path: "/booking/edit/:id",
+    breadcrumb: DynamicNewsBreadcrumb,
+  },
+
+  {
+    path: "/orders",
+    breadcrumb: "Бараа захиалга",
+  },
+  {
+    path: "/orders/add",
+    breadcrumb: " Барааны захиалга нэмэх",
+  },
+  {
+    path: "/orders/edit",
+    breadcrumb: " Барааны захиалга шинэчлэх",
+  },
+  {
+    path: "/orders/edit/:id",
+    breadcrumb: DynamicNewsBreadcrumb,
+  },
+
+  {
+    path: "/course-type",
+    breadcrumb: "Төлөв",
+  },
+  {
+    path: "/course-type/add",
+    breadcrumb: " Төлөв нэмэх",
+  },
+  {
+    path: "/course-type/edit",
+    breadcrumb: " Төлөв шинэчлэх",
+  },
+  {
+    path: "/course-type/edit/:id",
     breadcrumb: DynamicNewsBreadcrumb,
   },
 ];

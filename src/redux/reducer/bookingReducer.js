@@ -5,6 +5,7 @@ const initialState = {
   bookings: [],
   paginationLast: {},
   booking: {},
+  times: [],
   //count
   countLoading: false,
   totalCount: null,
@@ -48,6 +49,35 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         paginationLast: action.pagination,
+      };
+
+    // LOAD TIMES
+
+    case "LOAD_TIMES_START":
+      return {
+        ...state,
+        loading: true,
+        success: null,
+        error: null,
+        times: [],
+      };
+
+    case "LOAD_TIMES_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        success: null,
+        error: null,
+        times: action.times,
+      };
+
+    case "LOAD_TIMES_ERROR":
+      return {
+        ...state,
+        loading: false,
+        success: null,
+        error: null,
+        times: [],
       };
 
     // CREATE BOOKING

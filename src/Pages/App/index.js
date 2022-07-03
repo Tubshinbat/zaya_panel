@@ -84,6 +84,22 @@ import Booking from "../Booking";
 import BookingAdd from "../Booking/Add";
 import BookingEdit from "../Booking/Edit";
 
+import CourseComment from "../OnlineComment";
+import CourseCommentAdd from "../OnlineComment/Add";
+import CourseCommentEdit from "../OnlineComment/Edit";
+
+import Product from "../product";
+import ProductAdd from "../product/Add";
+import ProductEdit from "../product/Edit";
+
+import Order from "../Order";
+import OrderAdd from "../Order/Add";
+import OrderEdit from "../Order/Edit";
+
+import Employee from "../Employee";
+import EmployeeAdd from "../Employee/Add";
+import EmployeeEdit from "../Employee/Edit";
+
 import Menu from "../Menu";
 // Actions
 import { tokenCheck } from "../../redux/actions/tokenActions";
@@ -152,6 +168,13 @@ function App(props) {
               <Route path="/booking/edit/:id" component={BookingEdit} />
               <Route path="/booking" component={Booking} />
 
+              <Route path="/course-comment/add" component={CourseCommentAdd} />
+              <Route
+                path="/course-comment/edit/:id"
+                component={CourseCommentEdit}
+              />
+              <Route path="/course-comment" component={CourseComment} />
+
               <Route path="/order-course/add" component={CourseOrderAdd} />
               <Route
                 path="/order-course/edit/:id"
@@ -173,6 +196,18 @@ function App(props) {
               <Route path="/course-type/edit/:id" component={CourseTypeEdit} />
               <Route path="/course-type/add" component={CourseTypeAdd} />
               <Route path="/course-type" component={CourseType} />
+
+              <Route path="/product/edit/:id" component={ProductEdit} />
+              <Route path="/product/add" component={ProductAdd} />
+              <Route path="/product" component={Product} />
+
+              <Route path="/orders/edit/:id" component={OrderEdit} />
+              <Route path="/orders/add" component={OrderAdd} />
+              <Route path="/orders" component={Order} />
+
+              <Route path="/works/edit/:id" component={EmployeeEdit} />
+              <Route path="/works/add" component={EmployeeAdd} />
+              <Route path="/works" component={Employee} />
 
               <Route
                 path="/online-course/edit/:id"

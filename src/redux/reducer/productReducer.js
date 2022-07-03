@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
         success: null,
       };
 
-    case "LOAD_PRODUCT_START":
+    case "LOAD_PRODUCTS_START":
       return {
         ...state,
         loading: true,
@@ -28,14 +28,14 @@ const reducer = (state = initialState, action) => {
         products: [],
       };
 
-    case "LOAD_PRODUCT_SUCCESS":
+    case "LOAD_PRODUCTS_SUCCESS":
       return {
         ...state,
         loading: false,
-        products: action.loadProduct,
+        products: action.loadProducts,
       };
 
-    case "LOAD_PRODUCT_ERROR":
+    case "LOAD_PRODUCTS_ERROR":
       return {
         ...state,
         loading: false,
@@ -125,7 +125,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        product: action.singleProduct,
+        product: action.product,
         error: null,
       };
 

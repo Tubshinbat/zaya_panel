@@ -105,10 +105,10 @@ export const loadEmployeesStart = () => {
   };
 };
 
-export const loadEmployeesSuccess = (loadEmployees, pagination) => {
+export const loadEmployeesSuccess = (employee, pagination) => {
   return {
     type: "LOAD_EMPLOYEES_SUCCESS",
-    loadEmployees,
+    loadEmployees: employee,
     pagination,
   };
 };

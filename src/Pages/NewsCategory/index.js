@@ -76,7 +76,7 @@ const NewsCategory = (props) => {
 
   return (
     <Section>
-      <PageTitle name={`Нийтлэлийн төрөл `} />
+      <PageTitle name={`Ангилал `} />
       {props.loading ? <Spinner /> : null}
       <div className={`PanelTabelHeader`}>
         <button

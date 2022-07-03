@@ -64,7 +64,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        success: "Амжилттай баннер нэмэгдлээ",
+        success: "Амжилттай  нэмэгдлээ",
         error: null,
       };
     case "CREATE_EMPLOYEE_ERROR":

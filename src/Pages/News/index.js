@@ -226,11 +226,17 @@ const News = (props) => {
   return (
     <Section>
       <MetaTags>
-        <title> Нийтлэл | WEBR Control Panel</title>
-        <meta name="description" content="Нийтлэл | WeBR control panel" />
-        <meta property="og:title" content="Нийтлэл | web control panel" />
+        <title> Бясалгал дасгал | WEBR Control Panel</title>
+        <meta
+          name="description"
+          content="Бясалгал дасгал | WeBR control panel"
+        />
+        <meta
+          property="og:title"
+          content="Бясалгал дасгал | web control panel"
+        />
       </MetaTags>
-      <PageTitle name={`Нийтлэл`} />
+      <PageTitle name={`Бясалгал дасгал`} />
 
       <div className="row">
         <div className={css.PanelControl}>
@@ -241,7 +247,7 @@ const News = (props) => {
                 onClick={addClick}
                 className="myButton addBtn"
               >
-                <i className="fas fa-plus-circle"></i> Нийтлэл оруулах{" "}
+                <i className="fas fa-plus-circle"></i> Бясалгал дасгал оруулах{" "}
               </button>
               <button
                 name="refresh"
@@ -278,7 +284,7 @@ const News = (props) => {
                   <div className="form-group">
                     <Dropdown
                       key={"category"}
-                      name={!selectCat ? "Мэдээний ангилал" : selectCat}
+                      name={!selectCat ? "Ангилал" : selectCat}
                       data={renderCategories(props.categories)}
                       handleClick={handleShow}
                       show={dropShow.category}
@@ -439,8 +445,8 @@ const News = (props) => {
       >
         <div>
           <p>
-            Сонгогдсон нийт: <strong> {chkBox.length} </strong> нийтлэлийг
-            устгахдаа итгэлтэй байна уу ?
+            Сонгогдсон нийт: <strong> {chkBox.length} </strong> Бясалгал
+            дасгалыг устгахдаа итгэлтэй байна уу ?
           </p>
         </div>
         <div className={css.BtnGroup}>

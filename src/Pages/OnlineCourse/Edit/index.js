@@ -245,9 +245,7 @@ const Add = (props) => {
               onChange={() => teacherCheck(el._id)}
             />
           </div>
-          {el.children.length > 0 ? (
-            <ul> {renderTeachers(el.children)} </ul>
-          ) : null}
+          {el.name}
         </li>
       );
     });
